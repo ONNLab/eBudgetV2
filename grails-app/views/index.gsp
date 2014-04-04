@@ -90,7 +90,7 @@
 			</ul>
 			<h1>Main Menu</h1>
 			<ul>
-				<li> Login </li>
+				<li><a href="${createLink(controller:'AllocateBudget')}">Allocate Budget</a></li>
 			</ul>
 		</div>
 		<div id="page-body" role="main">
