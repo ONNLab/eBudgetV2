@@ -1,18 +1,21 @@
-import net.onnlab.crru.BudgetYear
-import net.onnlab.crru.AgencyGroup
-import net.onnlab.crru.Agency
-import net.onnlab.crru.BudgetType
-import net.onnlab.crru.AllocateItemDetail
-import net.onnlab.crru.AllocateItem
-import net.onnlab.crru.AgencyGroup
-import net.onnlab.crru.BudgetOutcome
-import net.onnlab.crru.ExpenseGroup
-import net.onnlab.crru.BudgetPlan
-import net.onnlab.crru.AllocateBudgetStatus
+import net.onnlab.crru.*
+import net.onnlab.crru.auth.*
 
 class BootStrap {
 
     def init = { servletContext ->
+        def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true) 
+        def budgetRole = new Role(authority: 'ROLE_BUDGET').save(flush: true)
+        def testUser = new User(username: 'me', password: 'password') 
+        testUser.save(flush: true)
+
+        UserRole.create testUser, budgetRole, true
+        UserRole.create testUser, adminRole, true
+
+        assert User.count() == 1 
+        assert Role.count() == 2 
+        assert UserRole.count() == 2
+
     	new BudgetYear(yearID: 2558 ,
     		startDate: Date.parse("yyyy-MM-dd", "2014-10-01") ,
     		endDate:Date.parse("yyyy-MM-dd", "2015-09-30")).save()
